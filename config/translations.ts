@@ -28,7 +28,7 @@ const errorMessages: Record<string, ErrorTranslations> = {
     "ip-block": {
       title: "拒绝访问",
       action: "已阻止了您本次请求",
-      description: "您的 IP 地址 ::CLIENT_IP:: 已被网站管理员阻止访问。",
+      description: "您的 IP 地址 ::CLIENT_IP:: 由于网站管理员设置，本次访问已被阻止。",
     },
     "waf-block": {
       title: "安全告警",
