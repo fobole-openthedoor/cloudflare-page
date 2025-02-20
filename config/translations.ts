@@ -185,13 +185,25 @@ const commonText: Record<string, CommonTranslations> = {
   }
 };
 
-export function getErrorTranslation(locale: string, errorType: ErrorType) {
-  const lang = locale.startsWith("zh") ? 
-    (locale === "zh-TW" ? "zh-TW" : "zh-CN") : 
-    "en";
+export function getBrowserLocale(): string {
+  // 服务端渲染时返回默认语言
+  if (typeof window === 'undefined') return 'en';
   
+  try {
+    const browserLang = navigator.language;
+    if (browserLang.startsWith('zh')) {
+      return browserLang === 'zh-TW' ? 'zh-TW' : 'zh-CN';
+    }
+    return 'en';
+  } catch {
+    return 'en';
+  }
+}
+
+export function getErrorTranslation(errorType: ErrorType) {
+  const locale = getBrowserLocale();
   return {
-    error: errorMessages[lang][errorType],
-    common: commonText[lang]
+    error: errorMessages[locale][errorType],
+    common: commonText[locale]
   };
 } 

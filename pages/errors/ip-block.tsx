@@ -1,10 +1,19 @@
 import React from 'react';
 import { getErrorTranslation } from '@/config/translations';
 import { ShieldBan } from 'lucide-react';
+import { useEffect, useState } from 'react';
 
 export default function IpBlockPage() {
-  const { error, common } = getErrorTranslation('ip-block');
+  // 默认使用英文，避免服务端渲染不匹配
+  const [translations, setTranslations] = useState(() => getErrorTranslation('ip-block'));
+
+  useEffect(() => {
+    // 客户端渲染时更新翻译
+    setTranslations(getErrorTranslation('ip-block'));
+  }, []);
   
+  const { error, common } = translations;
+
   return (
     <div className="min-h-screen bg-background flex items-center justify-center p-4">
       <div className="max-w-md w-full bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6">
