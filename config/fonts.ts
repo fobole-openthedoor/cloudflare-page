@@ -1,11 +1,9 @@
-import { Fira_Code as FontMono, Inter as FontSans } from "next/font/google";
+import { Inter as FontSans } from "next/font/google";
 
 export const fontSans = FontSans({
   subsets: ["latin"],
+  display: 'swap',
   variable: "--font-sans",
-});
-
-export const fontMono = FontMono({
-  subsets: ["latin"],
-  variable: "--font-mono",
+  // 只加载需要的字重
+  weight: ['400', '600', '700'],
 });
