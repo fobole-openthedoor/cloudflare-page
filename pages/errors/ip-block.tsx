@@ -1,22 +1,21 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { getErrorTranslation } from '@/config/translations';
 import { ShieldBan } from 'lucide-react';
-import { useEffect, useState } from 'react';
 
 export default function IpBlockPage() {
-  // 默认使用英文，避免服务端渲染不匹配
-  const [translations, setTranslations] = useState(() => getErrorTranslation('ip-block'));
-
-  useEffect(() => {
-    // 客户端渲染时更新翻译
-    setTranslations(getErrorTranslation('ip-block'));
-  }, []);
+  const [lang, setLang] = useState<'zh' | 'en'>('zh');
+  const { error, common } = getErrorTranslation('ip-block', lang);
   
-  const { error, common } = translations;
-
   return (
     <div className="min-h-screen bg-background flex items-center justify-center p-4">
-      <div className="max-w-md w-full bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6">
+      <div className="max-w-md w-full bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 relative">
+        <button
+          onClick={() => setLang(lang === 'zh' ? 'en' : 'zh')}
+          className="absolute top-4 right-4 px-3 py-1 rounded bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors text-sm"
+        >
+          {lang === 'zh' ? 'EN' : '中'}
+        </button>
+        
         <div className="flex items-center mb-4">
           <ShieldBan className="w-12 h-12 text-red-500 mr-4" />
           <h1 className="text-2xl font-bold">{error.title}</h1>

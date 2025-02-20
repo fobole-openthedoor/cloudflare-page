@@ -23,8 +23,8 @@ type CommonTranslations = {
   ip: string;
 };
 
-const errorMessages: Record<string, ErrorTranslations> = {
-  "zh-CN": {
+const errorMessages: Record<'zh' | 'en', ErrorTranslations> = {
+  "zh": {
     "ip-block": {
       title: "拒绝访问",
       action: "已阻止了您本次请求",
@@ -69,53 +69,6 @@ const errorMessages: Record<string, ErrorTranslations> = {
       title: "请求过多",
       action: "请求被限制",
       description: "您的访问请求过于频繁，请稍后再试。",
-    }
-  },
-  "zh-TW": {
-    "ip-block": {
-      title: "拒絕訪問",
-      action: "已阻止了您本次請求",
-      description: "您的 IP 地址 ::CLIENT_IP:: 已被阻止訪問。",
-    },
-    "waf-block": {
-      title: "安全警告",
-      action: "已攔截了您本次請求",
-      description: "檢測到潛在的惡意請求。",
-    },
-    "500-error": {
-      title: "伺服器錯誤",
-      action: "暫時無法處理您的請求",
-      description: "伺服器遇到了一個錯誤，我們正在努力修復。\n::CLOUDFLARE_ERROR_500S_BOX::",
-    },
-    "1000-error": {
-      title: "DNS錯誤",
-      action: "無法解析域名",
-      description: "域名解析出現問題。\n::CLOUDFLARE_ERROR_1000S_BOX::",
-    },
-    "interactive": {
-      title: "安全驗證",
-      action: "需要完成驗證",
-      description: "請完成以下驗證以繼續訪問：\n::CAPTCHA_BOX::",
-    },
-    "managed": {
-      title: "安全檢查",
-      action: "正在進行安全檢查",
-      description: "請稍候，正在確認您的訪問請求。\n::IM_UNDER_ATTACK_BOX::",
-    },
-    "country": {
-      title: "地區限制",
-      action: "訪問受限",
-      description: "您所在的地區 ::GEO:: 暫時無法訪問此網站。",
-    },
-    "javascript": {
-      title: "JavaScript 驗證",
-      action: "需要啟用 JavaScript",
-      description: "請啟用瀏覽器的 JavaScript 功能以繼續訪問。",
-    },
-    "429-error": {
-      title: "請求過多",
-      action: "請求被限制",
-      description: "您的訪問請求過於頻繁，請稍後再試。",
     }
   },
   "en": {
@@ -167,14 +120,9 @@ const errorMessages: Record<string, ErrorTranslations> = {
   }
 };
 
-const commonText: Record<string, CommonTranslations> = {
-  "zh-CN": {
+const commonText: Record<'zh' | 'en', CommonTranslations> = {
+  "zh": {
     rayId: "请求 ID",
-    location: "位置",
-    ip: "IP 地址"
-  },
-  "zh-TW": {
-    rayId: "請求 ID",
     location: "位置",
     ip: "IP 地址"
   },
@@ -185,25 +133,9 @@ const commonText: Record<string, CommonTranslations> = {
   }
 };
 
-export function getBrowserLocale(): string {
-  // 服务端渲染时返回默认语言
-  if (typeof window === 'undefined') return 'en';
-  
-  try {
-    const browserLang = navigator.language;
-    if (browserLang.startsWith('zh')) {
-      return browserLang === 'zh-TW' ? 'zh-TW' : 'zh-CN';
-    }
-    return 'en';
-  } catch {
-    return 'en';
-  }
-}
-
-export function getErrorTranslation(errorType: ErrorType) {
-  const locale = getBrowserLocale();
+export function getErrorTranslation(errorType: ErrorType, lang: 'zh' | 'en' = 'zh') {
   return {
-    error: errorMessages[locale][errorType],
-    common: commonText[locale]
+    error: errorMessages[lang][errorType],
+    common: commonText[lang]
   };
 } 
